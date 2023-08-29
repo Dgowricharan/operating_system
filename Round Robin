@@ -1,0 +1,117 @@
+#include<stdio.h>
+
+    int tq, at[10], pt[10], p[10], time=0, op=0, i,j ,n, ready[10],q[100];
+    int r=-1,f=0,tat[10],wt[10],z,fg,y=9999,ch;
+    float atat,awt;
+
+int rr(int x)
+{
+    if(pt[x]>tq)
+    {
+        pt[x]-=tq;
+        op+=tq;
+    }
+    else
+    {
+        op+=pt[x];
+        pt[x]=0;
+        tat[x]=op;
+        ready[x]=0;
+    }
+    return x;
+}
+
+void main()
+{
+    printf("Enter number or processes \n");
+    scanf("%d",&n);
+
+    printf("Enter araival times: \n");
+    for(i=0;i<n;i++)
+    scanf("%d",&at[i]);
+
+    printf("Enter process times: \n");
+    for(i=0;i<n;i++)
+    scanf("%d",&pt[i]);
+
+    printf("Enter TQ \n");
+    scanf("%d",&tq);
+
+    for(i=0;i<n;i++)
+    ready[i]=0;
+    
+    for(i=0;i<n;i++)
+    q[i]=9999;
+    
+    for(i=0;i<n;i++)
+    p[i]=pt[i];
+
+    for(i=0;i<n;i++)
+    time+=pt[i];
+
+
+    for(i=0;i<n;i++)
+        if(op>=at[i])
+        ready[i]=1;
+
+    for(i=0;i<n;i++)
+        if(ready[i]==1)
+        {
+            q[++r]=i;
+        }
+
+    while(op!=time)
+    {
+        printf("%d ",op);
+        if(z==y)
+        q[++f];
+        y=z;
+
+        ch=q[f];
+        if(pt[ch]!=0)
+        {
+        z=rr(q[f]);
+        
+        printf("P%d ",(z+1));
+
+        for(i=0;i<n;i++)
+        {
+           if(op>=at[i] && pt[i]!=0)
+           {
+            fg=0;
+            j=f;
+            while(j<=r)
+            {
+                if(i==q[j])
+                fg=1;
+                j++;
+            }
+            if(fg==0)
+            {
+                q[++r]=i;
+            }
+           } 
+        }
+        if(pt[z]!=0)
+        q[++r]=z;
+        }
+        f++;
+    }
+
+    printf("%d ",op);
+
+    for(i=0;i<n;i++)
+    {
+        tat[i]=tat[i]-at[i];
+        wt[i]=tat[i]-p[i];
+        atat+=tat[i];
+        awt+=wt[i];
+    }
+    atat=atat/n;
+    awt=awt/n;
+
+    printf("\n");
+    for(i=0;i<n;i++)
+    printf("P%d %d %d \n",(i+1),tat[i],wt[i]);
+    printf("ATAT=%f \nAWT=%f ",atat,awt);
+}
